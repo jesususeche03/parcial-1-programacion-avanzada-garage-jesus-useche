@@ -1,6 +1,6 @@
 # Sistema de garage
 
-Parcial universitario de Programación Avanzada construido desde cero en un repositorio independiente, con Java 17, Maven y JUnit 5. Aplicación de consola, sin frameworks ni base de datos.
+Parcial universitario de Programación Avanzada desarrollado en Java 17, Maven y JUnit 5. Aplicación de consola para la gestión de vehículos dentro de un garage, sin frameworks ni base de datos.
 
 ## Requisitos
 
