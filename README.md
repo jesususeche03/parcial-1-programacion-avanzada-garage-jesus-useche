@@ -110,3 +110,7 @@ java -jar plantuml.jar -charset UTF-8 -tpng docs/diagrama-clases.puml docs/diagr
 ```
 
 Se utilizó PlantUML 1.2025.2 para los diagramas y ReportLab para componer el PDF. Estas herramientas son de documentación y no son dependencias de la aplicación.
+
+## Repositorio
+
+https://github.com/jesususeche03/parcial-1-programacion-avanzada-garage-jesus-useche
