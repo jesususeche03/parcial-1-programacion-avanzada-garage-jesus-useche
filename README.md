@@ -38,7 +38,7 @@ garage-nuevo/
     └── documentacion-uml.pdf
 ```
 
-`target/` contiene resultados de compilación y pruebas; se excluye de Git. `.herramientas/` contiene únicamente herramientas portátiles locales de verificación y tampoco se versiona.
+`target/` se genera al compilar o ejecutar pruebas; se excluye de Git y del ZIP de revisión. Las herramientas portátiles y los archivos auxiliares de generación se eliminaron después de verificar la entrega. El proyecto se compila con el JDK y Maven indicados en los requisitos; los diagramas conservan sus fuentes `.puml` y el PDF incluye sus imágenes, sin dependencias de archivos externos.
 
 ## Compilar
 
