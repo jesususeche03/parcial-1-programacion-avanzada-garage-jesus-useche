@@ -1,5 +1,6 @@
 package ar.edu.parcial.garage;
 
+import ar.edu.parcial.garage.excepciones.HorasInvalidasException;
 import java.util.Locale;
 
 public abstract class Vehiculo implements Calculable {
@@ -13,7 +14,7 @@ public abstract class Vehiculo implements Calculable {
         this.marca = validarTexto(marca, "marca");
         this.modelo = validarTexto(modelo, "modelo");
         if (horasEstimadas <= 0) {
-            throw new IllegalArgumentException("Las horas estimadas deben ser mayores que cero.");
+            throw new HorasInvalidasException("Las horas estimadas deben ser mayores que cero.");
         }
         this.horasEstimadas = horasEstimadas;
     }

@@ -1,5 +1,8 @@
 package ar.edu.parcial.garage;
 
+import ar.edu.parcial.garage.excepciones.GarageLlenoException;
+import ar.edu.parcial.garage.excepciones.PatenteDuplicadaException;
+import ar.edu.parcial.garage.excepciones.VehiculoNoEncontradoException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,11 +23,11 @@ public final class Garage {
         Objects.requireNonNull(vehiculo, "El vehiculo es obligatorio.");
         for (Vehiculo actual : vehiculos) {
             if (actual.getPatente().equals(vehiculo.getPatente())) {
-                throw new IllegalArgumentException("La patente ya esta registrada: " + vehiculo.getPatente());
+                throw new PatenteDuplicadaException("La patente ya esta registrada: " + vehiculo.getPatente());
             }
         }
         if (vehiculo.getEspaciosOcupados() > getEspacioDisponible()) {
-            throw new IllegalStateException("No hay espacio suficiente para el vehiculo.");
+            throw new GarageLlenoException("No hay espacio suficiente para el vehiculo.");
         }
         vehiculos.add(vehiculo);
     }
@@ -36,7 +39,7 @@ public final class Garage {
                 return vehiculo;
             }
         }
-        throw new IllegalArgumentException("No se encontro la patente: " + normalizada);
+        throw new VehiculoNoEncontradoException("No se encontro la patente: " + normalizada);
     }
 
     public Vehiculo registrarSalida(String patente) {
