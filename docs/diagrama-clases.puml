@@ -1,0 +1,123 @@
+@startuml
+set namespaceSeparator none
+title Sistema de garage - clases de producción
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam nodesep 35
+skinparam ranksep 40
+hide empty members
+
+interface Calculable {
+  +calcularCosto(): double
+}
+abstract class Vehiculo {
+  -patente: String {readOnly}
+  -marca: String {readOnly}
+  -modelo: String {readOnly}
+  -horasEstimadas: int {readOnly}
+  #Vehiculo(patente: String, marca: String, modelo: String, horasEstimadas: int)
+  {static} +normalizarPatente(patente: String): String
+  {static} -validarTexto(valor: String, campo: String): String
+  +getPatente(): String
+  +getMarca(): String
+  +getModelo(): String
+  +getHorasEstimadas(): int
+  {abstract} +calcularCosto(): double
+  {abstract} +getEspaciosOcupados(): int
+  {abstract} +getTipo(): String
+  +mostrarDatos(): String
+}
+class Moto <<final>> {
+  +Moto(patente: String, marca: String, modelo: String, horasEstimadas: int)
+  +calcularCosto(): double
+  +getEspaciosOcupados(): int
+  +getTipo(): String
+}
+class Auto <<final>> {
+  +Auto(patente: String, marca: String, modelo: String, horasEstimadas: int)
+  +calcularCosto(): double
+  +getEspaciosOcupados(): int
+  +getTipo(): String
+}
+class Camion <<final>> {
+  +Camion(patente: String, marca: String, modelo: String, horasEstimadas: int)
+  +calcularCosto(): double
+  +getEspaciosOcupados(): int
+  +getTipo(): String
+}
+class Garage <<final>> {
+  -capacidadTotal: int {readOnly}
+  -vehiculos: List<Vehiculo> {readOnly}
+  +Garage(capacidadTotal: int)
+  +registrarIngreso(vehiculo: Vehiculo): void
+  +buscarPorPatente(patente: String): Vehiculo
+  +registrarSalida(patente: String): Vehiculo
+  +listarVehiculos(): List<Vehiculo>
+  +getCapacidadTotal(): int
+  +getEspacioOcupado(): int
+  +getEspacioDisponible(): int
+  +getCantidadTotal(): int
+  +getCantidadPorTipo(tipo: String): int
+  +getRecaudacionEstimada(): double
+}
+class Consola <<final>> {
+  -entrada: Scanner {readOnly}
+  -salida: PrintStream {readOnly}
+  +Consola(entrada: Scanner, salida: PrintStream)
+  {static} +main(args: String[]): void
+  +ejecutar(): void
+  -solicitarGarage(): Garage
+  -mostrarMenu(): void
+  -leerTexto(mensaje: String): String
+  -leerEntero(mensaje: String): int
+  -registrarIngreso(garage: Garage): void
+  -registrarSalida(garage: Garage): void
+  -listarVehiculos(garage: Garage): void
+  -mostrarEstado(garage: Garage): void
+  -mostrarReportes(garage: Garage): void
+}
+package "ar.edu.parcial.garage.excepciones" {
+  class GarageLlenoException <<final>> {
+    +GarageLlenoException(mensaje: String)
+  }
+  class PatenteDuplicadaException <<final>> {
+    +PatenteDuplicadaException(mensaje: String)
+  }
+  class VehiculoNoEncontradoException <<final>> {
+    +VehiculoNoEncontradoException(mensaje: String)
+  }
+  class HorasInvalidasException <<final>> {
+    +HorasInvalidasException(mensaje: String)
+  }
+}
+class "java.lang.IllegalArgumentException" as Argumento <<externa>>
+class "java.lang.IllegalStateException" as Estado <<externa>>
+
+Calculable <|.. Vehiculo
+Vehiculo <|-- Moto
+Vehiculo <|-- Auto
+Vehiculo <|-- Camion
+Garage o-- "0..*" Vehiculo : vehiculos
+Consola ..> Garage : usa
+Consola ..> Vehiculo : usa
+Garage ..> GarageLlenoException : lanza
+Garage ..> PatenteDuplicadaException : lanza
+Garage ..> VehiculoNoEncontradoException : lanza
+Vehiculo ..> HorasInvalidasException : lanza
+Argumento <|-- PatenteDuplicadaException
+Argumento <|-- VehiculoNoEncontradoException
+Argumento <|-- HorasInvalidasException
+Estado <|-- GarageLlenoException
+
+legend bottom
+  Clases sin paquete explícito: ar.edu.parcial.garage
+  List<Vehiculo> se inicializa como ArrayList<>.
+  Consola construye Moto, Auto y Camion según la opción de ingreso.
+  {readOnly}: referencia final; la lista interna admite altas y bajas.
+  Moto: 1 espacio, $700/h. Auto: 2 espacios, $1000/h. Camion: 4 espacios, $1500/h.
+  Miembros declarados del código de producción; biblioteca Java resumida.
+endlegend
+@enduml

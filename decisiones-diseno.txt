@@ -1,0 +1,54 @@
+DECISIONES DE DISEÑO
+
+1. Vehiculo abstracto
+Reúne patente, marca, modelo y horas estimadas. No se puede crear un vehículo
+genérico sin tarifa ni espacios definidos. Sus campos privados y finales, sin
+setters, impiden alterar la patente o las horas después del ingreso. Los getters
+permiten consultar los datos. mostrarDatos() devuelve una representación textual.
+
+2. Herencia
+Moto, Auto y Camion heredan datos y validaciones de Vehiculo. Son clases finales
+con comportamiento propio para calcularCosto(), getEspaciosOcupados() y getTipo().
+
+3. Polimorfismo
+Garage trabaja con referencias Vehiculo. Cada objeto resuelve su costo y sus
+espacios mediante sobrescritura, sin if, switch ni instanceof según el tipo.
+El switch de la consola solo selecciona qué objeto construir; no calcula tarifas
+ni espacios. getTipo() permite contar categorías sin consultar clases concretas.
+
+4. Calculable
+Define el contrato double calcularCosto(). Vehiculo lo implementa y declara el
+método abstracto; las subclases aportan las implementaciones. Un test suma los
+costos a través de referencias Calculable. Se usa double por simplicidad académica:
+las tarifas son enteras y las horas son int; multiplicar por un literal double
+evita desbordar la multiplicación de enteros. No hay impuestos ni redondeos.
+
+5. List y ArrayList
+Garage declara List<Vehiculo> y crea un ArrayList<>. Los recorridos simples son
+adecuados para el alcance del parcial. listarVehiculos() devuelve una instantánea
+inmutable con List.copyOf(), sin exponer la colección interna. El espacio y los
+reportes se calculan a partir de la lista, evitando contadores desactualizados.
+
+6. Excepciones
+GarageLlenoException hereda de IllegalStateException.
+PatenteDuplicadaException, VehiculoNoEncontradoException y HorasInvalidasException
+heredan de IllegalArgumentException. Son excepciones no comprobadas específicas
+del dominio. Los campos obligatorios y la capacidad usan IllegalArgumentException;
+las referencias nulas de objetos usan NullPointerException con requireNonNull.
+La consola captura errores de argumentos y estado, informa el problema y sigue.
+NumberFormatException se traduce a un mensaje de número entero inválido.
+NoSuchElementException permite finalizar controladamente cuando se agota la entrada.
+Se valida antes de modificar la lista, por lo que un error no deja ingresos parciales.
+
+7. Normalización de patente
+Se valida null y isBlank(), se aplica trim() y luego toUpperCase(Locale.ROOT).
+Ingreso, búsqueda y salida usan la misma regla. Locale.ROOT evita que la identidad
+dependa del idioma del equipo. Marca y modelo conservan sus mayúsculas y se recortan.
+La unicidad corresponde a los vehículos presentes: después de salir se puede reingresar.
+
+8. Alcance de los reportes
+Las horas son enteras positivas. La capacidad se mide en unidades de espacio,
+no en cantidad de vehículos. La recaudación estimada suma los costos de la
+permanencia prevista de los vehículos presentes; no acumula salidas históricas.
+Un tipo desconocido en getCantidadPorTipo() devuelve cero; un tipo vacío se rechaza.
+No se requieren base de datos, capas adicionales ni patrones de creación.

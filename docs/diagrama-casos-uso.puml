@@ -1,0 +1,54 @@
+@startuml
+title Sistema de garage - casos de uso
+left to right direction
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 16
+actor Operador
+rectangle "Sistema de garage (consola)" {
+  usecase "Configurar capacidad inicial" as Capacidad
+  usecase "Registrar ingreso" as Ingreso
+  usecase "Registrar salida" as Salida
+  usecase "Listar vehículos" as Listado
+  usecase "Consultar estado del garage" as Estado
+  usecase "Consultar reportes" as Reportes
+  usecase "Salir del programa" as Fin
+  usecase "Buscar por patente" as Buscar
+}
+Operador --> Capacidad
+Operador --> Ingreso
+Operador --> Salida
+Operador --> Listado
+Operador --> Estado
+Operador --> Reportes
+Operador --> Fin
+Salida ..> Buscar : <<include>>
+note right of Capacidad
+  Se solicita al iniciar.
+  Capacidad entera mayor que cero.
+end note
+note right of Ingreso
+  Patente única y campos obligatorios.
+  Horas enteras positivas.
+  Espacios suficientes según el vehículo.
+  Error: informa y retorna al menú.
+end note
+note right of Salida
+  Busca, retira y libera espacios.
+  Muestra el costo estimado.
+  Si no existe, informa y continúa.
+end note
+note right of Buscar
+  Operación de Garage utilizada por la salida.
+  No tiene opción propia en el menú.
+end note
+note right of Estado
+  Capacidad total, espacio ocupado y libre.
+end note
+note right of Reportes
+  Cantidad total y por tipo.
+  Capacidad total, espacio ocupado y libre.
+  Suma de costos de vehículos presentes.
+end note
+@enduml
